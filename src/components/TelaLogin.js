@@ -92,10 +92,5 @@ button{
     align-items: center;
     width: 303px;
     height: 45px;
-    border-radius: 4.63636px;
-    font-size: 20.976px;
-    line-height: 26px;
-    text-align: center;
-    color: #FFFFFF;
 }
 `

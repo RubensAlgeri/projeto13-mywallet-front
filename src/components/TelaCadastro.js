@@ -120,7 +120,7 @@ const Cadastro = styled.div`
   align-items: center;
   width: 100vw;
   h1 {
-      margin: 95px 0 28px 0;
+    margin: 95px 0 28px 0;
     font-family: 'Saira Stencil One', cursive;
     font-size: 32px;
     line-height: 50px;
@@ -143,16 +143,11 @@ const Cadastro = styled.div`
     border-radius: 5px;
   }
   button {
-      margin-bottom: 32px;
+    margin-bottom: 32px;
     display: flex;
     justify-content: center;
     align-items: center;
     width: 303px;
     height: 45px;
-    border-radius: 4.63636px;
-    font-size: 20.976px;
-    line-height: 26px;
-    text-align: center;
-    color: #ffffff;
   }
 `;

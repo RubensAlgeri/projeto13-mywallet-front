@@ -25,10 +25,19 @@ input:disabled{
 }
 button{
     background: #A328D6;
+    color: #ffffff;
+    font-size: 20px;
+    line-height: 23px;
+    text-align: center;
+    border-radius: 5px;
     border: none;
 }
 button:disabled{
     opacity: 0.7;
+}
+ion-icon{
+    color: #ffffff;
+    font-size: 23px;
 }
 `
 
