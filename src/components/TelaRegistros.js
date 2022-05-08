@@ -31,6 +31,7 @@ export default function TelaRegistros() {
                 Authorization: `Bearer ${token}`
             }
         }
+        console.log(idRegistro)
         if(window.confirm("Você quer mesmo deletar este hábito?")==true){
             const promessa = axios.delete(`http://localhost:5000/records/${idRegistro}`, config)
             promessa.then(() => {
@@ -61,7 +62,7 @@ export default function TelaRegistros() {
                                     <em>{registro.description} </em>
                                     <b>{registro.value}</b>
                                 </article>
-                                <ion-icon onClick={() => removerRegistro(registro.id)} name="trash-outline"></ion-icon>
+                                <ion-icon onClick={() => removerRegistro(registro._id)} name="trash-outline"></ion-icon>
                             </>
                         )
                     })
@@ -112,7 +113,10 @@ article{
     margin: 23px 10px -70px 12px;
 }
 article ion-icon{
+    z-index: 9;
+    font-size: 30px;
     color: #C6C6C6;
+    color: #333555;
 }
 article span{
     margin-right: 5px;
