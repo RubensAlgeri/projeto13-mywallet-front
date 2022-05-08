@@ -1,29 +1,82 @@
 import axios from "axios";
 import styled from "styled-components";
 import React from "react";
-import { ThreeDots } from "react-loader-spinner"
-import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useReducer } from "react/cjs/react.production.min";
+import { useState, useEffect, useContext } from "react";
+import UserContext from "../contexts/UserContext";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 export default function TelaRegistros() {
+    const navigate = useNavigate();
+    const [listaRegistros, setListaRegistros] = useState([])
+    const userData = useContext(UserContext).userData
+    console.log(userData)
+    const { name, token } = userData;
+
+    useEffect(() => {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+        const promise = axios.get(`http://localhost:5000/records`, config)
+        promise.then((resposta) => {
+            setListaRegistros(resposta.data);
+        })
+        promise.catch((err) => { alert(`deu ruim, ${err}`)})
+    }, []);
+
+    function removerRegistro(idRegistro) {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+        if(window.confirm("Você quer mesmo deletar este hábito?")==true){
+            const promessa = axios.delete(`http://localhost:5000/records/${idRegistro}`, config)
+            promessa.then(() => {
+                const promise = axios.get(`http://localhost:5000/records`, config)
+                promise.then((resposta) => {
+                    setListaRegistros(resposta.data);
+                })
+                promise.catch((err) => { alert(`deu ruim, ${err}`) })
+            })
+        }
+    }
+
+
     return (
         <>
             <Topo>
-                <p>Olá, { }</p>
+                <p>Olá, {name}</p>
                 <ion-icon name="log-out-outline"></ion-icon>
             </Topo>
             <Registros>
-                <p>Não há registros de entrada ou saída</p>
+
+            {listaRegistros.length > 0 ?
+                    listaRegistros.map(registro => {
+                        return (
+                            <>
+                                <div onClick={()=>navigate("/editar",{id:registro._id, tipo:registro.type})}>
+                                    <span >{registro.date}</span>
+                                    <em>{registro.description} </em>
+                                    <b>{registro.value}</b>
+                                </div>
+                                <ion-icon onClick={() => removerRegistro(registro.id)} name="trash-outline"></ion-icon>
+
+                            </>
+                        )
+                    })
+                    :  <p>Não há registros de entrada ou saída</p>}
+
                 <ion-icon name="close-outline"></ion-icon>
             </Registros>
             <Botoes>
-                <button>
+                <button onClick={()=>navigate("/registrar",{state:{tipo:'entrada'}})}>
                     <ion-icon name="add-circle-outline"></ion-icon>
 
                     <p>Nova entrada</p>
                 </button>
-                <button>
+                <button onClick={()=>navigate("/registrar",{state:{tipo:'saída'}})}>
                     <ion-icon name="remove-circle-outline"></ion-icon>
                     <p>Nova saída</p>
                 </button>

@@ -1,7 +1,6 @@
 import axios from "axios";
 import styled from "styled-components";
 import React from "react";
-import {ThreeDots} from "react-loader-spinner"
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -21,8 +20,8 @@ export default function TelaCadastro() {
         event.preventDefault();
         setCarregando(true);
         const promessa = axios.post(
-            "",
-            { email, password, name }
+            "http://localhost:5000/sign-up",
+            { email, password, username:name }
         );
         promessa.then(() => {
             setCarregando(false);
@@ -63,7 +62,6 @@ export default function TelaCadastro() {
                         ></input>
 
                         <button disabled>
-                            <ThreeDots color="#FFFFFF" height={13} width={51} />
                         </button>
                     </>
                 ) : (
@@ -104,8 +102,11 @@ export default function TelaCadastro() {
                             }
                             required
                         ></input>
-
-                        <button type="submit">Cadastrar</button>
+                        {password === password2 ? (
+                            <button type="submit">Cadastrar</button>
+                        ):(
+                            <button disabled type="submit">Cadastrar</button>
+                        )}
                     </>
                 )}
             </form>

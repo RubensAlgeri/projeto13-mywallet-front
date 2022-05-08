@@ -1,39 +1,41 @@
 import axios from 'axios';
 import styled from 'styled-components';
 import React from 'react';
-import {ThreeDots} from "react-loader-spinner"
 import { useState, useEffect, useContext } from 'react';
 import { Link, useNavigate } from "react-router-dom";
+import dotenv from "dotenv";
 
 import UserContext from '../contexts/UserContext';
+dotenv.config()
 
-export default function TelaLogin(){
-    const [login, setLogin] = useState({email: "", password:""})
-    const {email, password} = login;
+export default function TelaLogin() {
+    const [login, setLogin] = useState({ email: "", password: "" })
+    const { email, password } = login;
     const [carregando, setCarregando] = useState(false)
     const setUserData = useContext(UserContext).setUserData
-    
+
 
     const navigate = useNavigate();
 
 
-    function logar(event){
+    function logar(event) {
         setCarregando(true);
         event.preventDefault();
-        const promessa = axios.post("", {email, password})
-        promessa.then(resposta=>{
+        const promessa = axios.post("http://localhost:5000/sign-in", { email, password })
+        promessa.then(resposta => {
             setCarregando(false)
-            setUserData({data: resposta.data, token: resposta.data.token})
-            navigate("/hoje")
-            
+            console.log(resposta)
+            setUserData({ name: resposta.data.name, token: resposta.data.token })
+            navigate("/registros")
+
         })
-        promessa.catch(err=>{
+        promessa.catch(err => {
             setCarregando(false)
-            alert(`deu ruim, ${err.response.data.message}`)
+            alert(`deu ruim, ${err}`)
         })
     }
 
-    return(
+    return (
         <Login>
             <h1>MyWallet</h1>
             <form onSubmit={logar}>
@@ -41,12 +43,12 @@ export default function TelaLogin(){
                     <>
                         <input disabled type="email" placeholder="E-mail" ></input>
                         <input disabled type="password" placeholder="Senha"></input>
-                        <button disabled><ThreeDots color="#FFFFFF" height={13} width={51}/></button>
+                        <button disabled></button>
                     </>
                     :
                     <>
-                        <input type="email" placeholder="E-mail" value={login.email} onChange={(e)=>setLogin({email:e.target.value, password})} required></input>
-                        <input type="password" placeholder="Senha" value={login.password} onChange={(e)=>setLogin({password:e.target.value, email})} required></input>
+                        <input type="email" placeholder="E-mail" value={login.email} onChange={(e) => setLogin({ email: e.target.value, password })} required></input>
+                        <input type="password" placeholder="Senha" value={login.password} onChange={(e) => setLogin({ password: e.target.value, email })} required></input>
                         <button type="submit">Entrar</button>
                     </>
                 }

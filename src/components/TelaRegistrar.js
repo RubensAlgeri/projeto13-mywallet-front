@@ -5,38 +5,44 @@ import { useState, useEffect, useContext } from "react";
 import UserContext from "../contexts/UserContext";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
-export default function TelaEditar() {
+
+export default function TelaRegistrar() {
     const navigate = useNavigate();
-    const { id, tipo } = useLocation()
+    const { tipo } = useLocation().state;
     const userData = useContext(UserContext).userData
-    console.log(userData)
     const { name, token } = userData;
     const [entrada, setEntrada] = useState({ valor: "", descricao: "" })
-    const { valor, descricao } = entrada;
-    function alterarRegisto(idRegistro) {
+    const { valor, descricao } = entrada
+    console.log("tipo ", tipo, "valor", valor, "descricao", descricao)
+    function enviar(event) {
+        event.preventDefault();
         const config = {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         }
-
-        const promessa = axios.put(`http://localhost:5000/records/${idRegistro}`, config)
+        const promessa = axios.post(
+            "http://localhost:5000/records",
+            { value: valor, description: descricao, type: tipo }, config
+        );
         promessa.then(() => {
-            navigate("/registros")
-        })
-        promessa.catch((err) => { alert(`deu ruim, ${err}`) })
+            navigate("/registros");
+        });
+        promessa.catch((err) => {
+            alert(`deu ruim, ${err}`);
+        });
     }
     return (
         <>
             <Login>
-                <h1>Editar {tipo}</h1>
-                <form onSubmit={alterarRegisto}>
+                <h1>Nova {tipo}</h1>
+                <form onSubmit={enviar}>
                     <input
                         type="text"
                         placeholder="Valor"
                         value={entrada.valor}
                         onChange={(e) =>
-                            setEntrada({ value: e.target.valor, descricao })
+                            setEntrada({ valor: e.target.value, descricao })
                         }
                         required
                     ></input>
@@ -49,7 +55,7 @@ export default function TelaEditar() {
                         }
                         required
                     ></input>
-                    <button type="submit">Atualizar {tipo}</button>
+                    <button type="submit">Salvar {tipo}</button>
                 </form>
             </Login>
         </>
@@ -63,7 +69,7 @@ align-items: center;
 width: auto;
 h1 {
     margin: 159px 0 24px 0;
-    font-family: 'Saira Stencil One', cursive;
+    font-weight: 700;
     font-size: 32px;
     line-height: 50px;
 

@@ -8,8 +8,7 @@ import UserContext from "../contexts/UserContext";
 import TelaCadastro from "./TelaCadastro"
 import TelaLogin from "./TelaLogin"
 import TelaRegistros from "./TelaRegistros"
-import TelaEntrada from "./TelaEntrada"
-import TelaSaida from "./TelaSaida"
+import TelaRegistrar from "./TelaRegistrar"
 import TelaEditar from "./TelaEditar"
 
 
@@ -26,8 +25,7 @@ export default function App(){
 						<Route path="/" element={<TelaLogin />} />
 						<Route path="/cadastro" element={<TelaCadastro />} />
 						<Route path="/registros" element={<TelaRegistros />} />
-						<Route path="/entrada" element={<TelaEntrada />} />
-						<Route path="/saida" element={<TelaSaida />} />
+						<Route path="/registrar" element={<TelaRegistrar />} />
 						<Route path="/editar" element={<TelaEditar />} />
 					</Routes>
 				</UserContext.Provider>
