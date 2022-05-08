@@ -4,7 +4,7 @@ import React from "react";
 import { useState, useEffect, useContext } from "react";
 import UserContext from "../contexts/UserContext";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-
+import dayjs from "dayjs";
 
 export default function TelaRegistrar() {
     const navigate = useNavigate();
@@ -14,6 +14,7 @@ export default function TelaRegistrar() {
     const [entrada, setEntrada] = useState({ valor: "", descricao: "" })
     const { valor, descricao } = entrada
     console.log("tipo ", tipo, "valor", valor, "descricao", descricao)
+    
     function enviar(event) {
         event.preventDefault();
         const config = {
@@ -23,7 +24,7 @@ export default function TelaRegistrar() {
         }
         const promessa = axios.post(
             "http://localhost:5000/records",
-            { value: valor, description: descricao, type: tipo }, config
+            { value: valor, description: descricao, type: tipo, date: dayjs().locale("pt-br").format('DD/MM') }, config
         );
         promessa.then(() => {
             navigate("/registros");

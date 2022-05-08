@@ -56,13 +56,12 @@ export default function TelaRegistros() {
                     listaRegistros.map(registro => {
                         return (
                             <>
-                                <div onClick={()=>navigate("/editar",{id:registro._id, tipo:registro.type})}>
+                                <article onClick={()=>navigate("/editar",{state:{id:registro._id, tipo:registro.type}})}>
                                     <span >{registro.date}</span>
                                     <em>{registro.description} </em>
                                     <b>{registro.value}</b>
-                                </div>
+                                </article>
                                 <ion-icon onClick={() => removerRegistro(registro.id)} name="trash-outline"></ion-icon>
-
                             </>
                         )
                     })
@@ -100,12 +99,24 @@ p{
 `
 const Registros = styled.div`
 display: flex;
+flex-wrap: wrap;
 width: 326px;
 min-height: 446px;
-max-height: auto;
 margin: 0 auto;
 background: #FFFFFF;
 border-radius: 5px;
+article{
+    display: flex;
+    height: 20px;
+    width: 100%;
+    margin: 23px 10px -70px 12px;
+}
+article ion-icon{
+    color: #C6C6C6;
+}
+article span{
+    margin-right: 5px;
+}
 p{
     width: 180px;
     height: 46px;

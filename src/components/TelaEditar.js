@@ -5,22 +5,25 @@ import { useState, useEffect, useContext } from "react";
 import UserContext from "../contexts/UserContext";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
+
 export default function TelaEditar() {
     const navigate = useNavigate();
-    const { id, tipo } = useLocation()
+    const { id, tipo } = useLocation().state;
     const userData = useContext(UserContext).userData
     console.log(userData)
     const { name, token } = userData;
     const [entrada, setEntrada] = useState({ valor: "", descricao: "" })
     const { valor, descricao } = entrada;
-    function alterarRegisto(idRegistro) {
+
+    function alterarRegisto(event) {
+        event.preventDefault();
         const config = {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         }
 
-        const promessa = axios.put(`http://localhost:5000/records/${idRegistro}`, config)
+        const promessa = axios.put(`http://localhost:5000/records/${id}`,{value:valor, description:descricao}, config)
         promessa.then(() => {
             navigate("/registros")
         })
@@ -36,7 +39,7 @@ export default function TelaEditar() {
                         placeholder="Valor"
                         value={entrada.valor}
                         onChange={(e) =>
-                            setEntrada({ value: e.target.valor, descricao })
+                            setEntrada({ valor: e.target.value, descricao })
                         }
                         required
                     ></input>
@@ -63,7 +66,7 @@ align-items: center;
 width: auto;
 h1 {
     margin: 159px 0 24px 0;
-    font-family: 'Saira Stencil One', cursive;
+    font-weight: 700;
     font-size: 32px;
     line-height: 50px;
 
