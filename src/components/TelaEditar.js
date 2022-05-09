@@ -38,7 +38,7 @@ export default function TelaEditar() {
                 <form onSubmit={alterarRegisto}>
                     <input
                         type="text"
-                        placeholder="Valor"
+                        placeholder="Valor (0,00)"
                         pattern={/^[0-9]*,[0-9]{2}$/}
                         value={entrada.valor}
                         onChange={(e) =>
