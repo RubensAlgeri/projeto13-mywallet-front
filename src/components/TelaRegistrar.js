@@ -43,6 +43,7 @@ export default function TelaRegistrar() {
                     <input
                         type="text"
                         placeholder="Valor"
+                        pattern={/^[0-9]*,[0-9]{2}$/}
                         value={entrada.valor}
                         onChange={(e) =>
                             setEntrada({ valor: e.target.value, descricao })
@@ -52,6 +53,7 @@ export default function TelaRegistrar() {
                     <input
                         type="text"
                         placeholder="Descrição"
+                        min="3"
                         value={entrada.descricao}
                         onChange={(e) =>
                             setEntrada({ valor, descricao: e.target.value })

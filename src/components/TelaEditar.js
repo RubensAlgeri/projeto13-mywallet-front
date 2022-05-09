@@ -39,6 +39,7 @@ export default function TelaEditar() {
                     <input
                         type="text"
                         placeholder="Valor"
+                        pattern={/^[0-9]*,[0-9]{2}$/}
                         value={entrada.valor}
                         onChange={(e) =>
                             setEntrada({ valor: e.target.value, descricao })
@@ -49,6 +50,7 @@ export default function TelaEditar() {
                         type="text"
                         placeholder="Descrição"
                         value={entrada.descricao}
+                        min="3"
                         onChange={(e) =>
                             setEntrada({ valor, descricao: e.target.value })
                         }
