@@ -1,7 +1,7 @@
 import axios from "axios";
 import styled from "styled-components";
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function TelaCadastro() {
@@ -9,27 +9,23 @@ export default function TelaCadastro() {
         email: "",
         password: "",
         name: "",
-        password2: "",
+        confirmPassword: "",
     });
-    const { email, password, name, password2 } = cadastro;
-    const [carregando, setCarregando] = useState(false);
+    const { email, password, name, confirmPassword } = cadastro;
 
     const navigate = useNavigate();
 
     function cadastrar(event) {
         event.preventDefault();
-        setCarregando(true);
         const promessa = axios.post(
             "http://localhost:5000/sign-up",
-            { email, password, username:name }
+            { email, password, username: name }
         );
         promessa.then(() => {
-            setCarregando(false);
             navigate("/");
         });
         promessa.catch((err) => {
-            setCarregando(false);
-            alert(`deu ruim, ${err.response.data.message}`);
+            alert(`deu ruim, ${err}`);
         });
     }
 
@@ -37,78 +33,49 @@ export default function TelaCadastro() {
         <Cadastro>
             <h1>MyWallet</h1>
             <form onSubmit={cadastrar}>
-                {carregando ? (
-                    <>
-                        <input
-                            disabled
-                            type="text"
-                            placeholder="Nome"
-                        ></input>
-                        <input
-                            disabled
-                            type="email"
-                            placeholder="E-mail"
-                        ></input>
-                        <input
-                            disabled
-                            type="password"
-                            placeholder="Senha"
-                        ></input>
 
-                        <input
-                            disabled
-                            type="password"
-                            placeholder="Confirme a senha"
-                        ></input>
-
-                        <button disabled>
-                        </button>
-                    </>
+                <input
+                    type="text"
+                    placeholder="Nome"
+                    value={cadastro.name}
+                    onChange={(e) =>
+                        setCadastro({ name: e.target.value, email, password, confirmPassword })
+                    }
+                    required
+                ></input>
+                <input
+                    type="email"
+                    placeholder="E-mail"
+                    value={cadastro.email}
+                    onChange={(e) =>
+                        setCadastro({ email: e.target.value, password, name, confirmPassword })
+                    }
+                    required
+                ></input>
+                <input
+                    type="password"
+                    placeholder="Senha"
+                    value={cadastro.password}
+                    onChange={(e) =>
+                        setCadastro({ password: e.target.value, email, name, confirmPassword })
+                    }
+                    required
+                ></input>
+                <input
+                    type="password"
+                    placeholder="Confirme a senha"
+                    value={cadastro.confirmPassword}
+                    onChange={(e) =>
+                        setCadastro({ confirmPassword: e.target.value, email, password, name })
+                    }
+                    required
+                ></input>
+                {password === confirmPassword ? (
+                    <button type="submit">Cadastrar</button>
                 ) : (
-                    <>
-                            <input
-                                type="text"
-                                placeholder="Nome"
-                                value={cadastro.name}
-                                onChange={(e) =>
-                                    setCadastro({ name: e.target.value, email, password, password2 })
-                                }
-                                required
-                            ></input>
-                        <input
-                            type="email"
-                            placeholder="E-mail"
-                            value={cadastro.email}
-                            onChange={(e) =>
-                                setCadastro({ email: e.target.value, password, name, password2 })
-                            }
-                            required
-                        ></input>
-                        <input
-                            type="password"
-                            placeholder="Senha"
-                            value={cadastro.password}
-                            onChange={(e) =>
-                                setCadastro({ password: e.target.value, email, name, password2 })
-                            }
-                            required
-                        ></input>
-                        <input
-                            type="password"
-                            placeholder="Confirme a senha"
-                            value={cadastro.password2}
-                            onChange={(e) =>
-                                setCadastro({ password2: e.target.value, email, password, name })
-                            }
-                            required
-                        ></input>
-                        {password === password2 ? (
-                            <button type="submit">Cadastrar</button>
-                        ):(
-                            <button disabled type="submit">Cadastrar</button>
-                        )}
-                    </>
+                    <button disabled type="submit">Cadastrar</button>
                 )}
+
             </form>
             <Link to="/">Já tem uma conta? Faça login!</Link>
         </Cadastro>

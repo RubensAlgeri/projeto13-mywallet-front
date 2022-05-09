@@ -17,11 +17,7 @@ a{
 input::placeholder{
     font-size: 20px;
     line-height: 23px;
-
     color: #000000;
-}
-input:disabled{
-    background: #F2F2F2;
 }
 button{
     background: #A328D6;
@@ -32,13 +28,9 @@ button{
     border-radius: 5px;
     border: none;
 }
-button:disabled{
-    opacity: 0.7;
-}
 ion-icon{
     color: #ffffff;
     font-size: 23px;
 }
 `
-
 export default Style;

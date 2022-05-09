@@ -1,7 +1,7 @@
 import axios from 'axios';
 import styled from 'styled-components';
 import React from 'react';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useContext } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import dotenv from "dotenv";
 
@@ -11,7 +11,6 @@ dotenv.config()
 export default function TelaLogin() {
     const [login, setLogin] = useState({ email: "", password: "" })
     const { email, password } = login;
-    const [carregando, setCarregando] = useState(false)
     const setUserData = useContext(UserContext).setUserData
 
 
@@ -19,17 +18,13 @@ export default function TelaLogin() {
 
 
     function logar(event) {
-        setCarregando(true);
         event.preventDefault();
         const promessa = axios.post("http://localhost:5000/sign-in", { email, password })
         promessa.then(resposta => {
-            setCarregando(false)
             setUserData({ name: resposta.data.name, token: resposta.data.token })
             navigate("/registros")
-
         })
         promessa.catch(err => {
-            setCarregando(false)
             alert(`deu ruim, ${err}`)
         })
     }
@@ -38,19 +33,11 @@ export default function TelaLogin() {
         <Login>
             <h1>MyWallet</h1>
             <form onSubmit={logar}>
-                {carregando ?
-                    <>
-                        <input disabled type="email" placeholder="E-mail" ></input>
-                        <input disabled type="password" placeholder="Senha"></input>
-                        <button disabled></button>
-                    </>
-                    :
-                    <>
-                        <input type="email" placeholder="E-mail" value={login.email} onChange={(e) => setLogin({ email: e.target.value, password })} required></input>
-                        <input type="password" placeholder="Senha" value={login.password} onChange={(e) => setLogin({ password: e.target.value, email })} required></input>
-                        <button type="submit">Entrar</button>
-                    </>
-                }
+
+                <input type="email" placeholder="E-mail" value={login.email} onChange={(e) => setLogin({ email: e.target.value, password })} required></input>
+                <input type="password" placeholder="Senha" value={login.password} onChange={(e) => setLogin({ password: e.target.value, email })} required></input>
+                <button type="submit">Entrar</button>
+
             </form>
             <Link to="/cadastro">Não tem uma conta? Cadastre-se!</Link>
 

@@ -3,18 +3,15 @@ import styled from "styled-components";
 import React from "react";
 import { useState, useEffect, useContext } from "react";
 import UserContext from "../contexts/UserContext";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function TelaRegistros() {
+
     const navigate = useNavigate();
     const [listaRegistros, setListaRegistros] = useState([])
     const [saldo, setSaldo] = useState([])
-    const {userData, setUserData} = useContext(UserContext)
+    const { userData, setUserData } = useContext(UserContext)
     const { name, token } = userData;
-    console.log(token)
-    if(token == undefined ){
-        navigate("/")
-    }
 
     useEffect(() => {
         const config = {
@@ -36,23 +33,23 @@ export default function TelaRegistros() {
                 Authorization: `Bearer ${token}`
             }
         }
-        if (window.confirm("Você quer mesmo deletar este hábito?") == true) {
+        if (window.confirm("Você quer mesmo deletar este registro?") === true) {
             const promessa = axios.delete(`http://localhost:5000/records/${idRegistro}`, config)
             promessa.then(() => {
                 const promise = axios.get(`http://localhost:5000/records`, config)
                 promise.then((resposta) => {
                     setListaRegistros(resposta.data.records);
+                    setSaldo(resposta.data.balance);
                 })
                 promise.catch((err) => { alert(`deu ruim, ${err}`) })
             })
         }
     }
 
-    function deslogar(){
+    function deslogar() {
         setUserData([])
         navigate("/")
     }
-
 
     return (
         <>
@@ -60,30 +57,31 @@ export default function TelaRegistros() {
                 <p>Olá, {name}</p>
                 <ion-icon onClick={deslogar} name="log-out-outline"></ion-icon>
             </Topo>
-            <Registros tipo={saldo?saldo.type:null}>
-
-                {listaRegistros.length > 0 ?
-                    listaRegistros.map(registro => {
-                        return (
-                            <Registro tipo={registro.type}>
-                                <article onClick={() => navigate("/editar", { state: { id: registro._id, tipo: registro.type } })}>
-                                    <span >{registro.date}</span>
-                                    <em>{registro.description} </em>
-                                    <b>{registro.value}</b>
-                                </article>
-                                <ion-icon onClick={() => removerRegistro(registro._id)} name="close-outline"></ion-icon>
-                            </Registro>
-                        )
-                    })
-                    : (<p>Não há registros de entrada ou saída</p>)}
-                {saldo?
-                    <>
-                        <h5>SALDO</h5>
-                        <h4>{saldo.balance}</h4>
-                    </>
-                    :
-                    <></>
-                }
+            <Registros tipo={saldo ? saldo.type : null}>
+                <ul>
+                    {listaRegistros.length > 0 ?
+                        listaRegistros.map(registro => {
+                            return (
+                                <Registro key={registro._id} tipo={registro.type}>
+                                    <li onClick={() => navigate("/editar", { state: { id: registro._id, tipo: registro.type } })}>
+                                        <span >{registro.date}</span>
+                                        <em>{registro.description} </em>
+                                        <b>{registro.value}</b>
+                                    </li>
+                                    <ion-icon onClick={() => removerRegistro(registro._id)} name="close-outline"></ion-icon>
+                                </Registro>
+                            )
+                        })
+                        : (<p>Não há registros de entrada ou saída</p>)}
+                    {saldo ?
+                        <>
+                            <h5>SALDO</h5>
+                            <h4>{saldo.balance}</h4>
+                        </>
+                        :
+                        <></>
+                    }
+                </ul>
             </Registros>
             <Botoes>
                 <button onClick={() => navigate("/registrar", { state: { tipo: 'entrada' } })}>
@@ -101,20 +99,31 @@ export default function TelaRegistros() {
 }
 const Registro = styled.div`
 display: flex;
-height: 20px;
+align-items: center;
 width: 100%;
-height: 20px;
-width: 100%;
-margin: 23px 10px -70px 12px;
+margin: 10px 0 0 12px;
+li{
+    width: 100%;
+    position: relative;
+}
 ion-icon{
-    font-size: 22px;
-    align-items: center;
+    position: absolute;
+    right: 10px;
     color: #C6C6C6;
 }
+em{
+    position: absolute;
+    left: 60px;
+}
 span{
+    font-size: 16px;
+    line-height: 19px;
+    color: #C6C6C6;
     margin-right: 5px;
 }
 b{
+    position: absolute;
+    right: 41px;
     color: ${props => props.tipo === "entrada" ? "#03AC00" : "#C70000"};
 }
 `
@@ -132,13 +141,21 @@ p{
 }
 `
 const Registros = styled.div`
+overflow: hidden;
+position: relative;
 display: flex;
 flex-wrap: wrap;
 width: 326px;
-min-height: 446px;
+height: 446px;
 margin: 0 auto;
 background: #FFFFFF;
 border-radius: 5px;
+ul{
+    overflow: hidden;
+    flex-wrap: wrap;
+    width: 100%;
+    height: auto;
+}
 p{
     width: 180px;
     height: 46px;
@@ -149,12 +166,18 @@ p{
     color: #868686;
 }
 h5{
+    position: absolute;
+    bottom: 10px;
+    left: 15px;
     font-weight: 700;
     font-size: 17px;
     line-height: 20px;
     color: #000000
 }
 h4{
+    position: absolute;
+    bottom: 10px;
+    right: 11px;
     color: ${props => props.tipo === "entrada" ? "#03AC00" : "#C70000"};
 }
 `

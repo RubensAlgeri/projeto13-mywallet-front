@@ -1,16 +1,16 @@
 import axios from "axios";
 import styled from "styled-components";
 import React from "react";
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import UserContext from "../contexts/UserContext";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import dayjs from "dayjs";
 
 export default function TelaRegistrar() {
     const navigate = useNavigate();
     const { tipo } = useLocation().state;
     const userData = useContext(UserContext).userData
-    const { name, token } = userData;
+    const { token } = userData;
     const [entrada, setEntrada] = useState({ valor: "", descricao: "" })
     const { valor, descricao } = entrada
     
@@ -31,6 +31,9 @@ export default function TelaRegistrar() {
         promessa.catch((err) => {
             alert(`deu ruim, ${err}`);
         });
+    }
+    function cancelar() {
+        navigate("/registros")
     }
     return (
         <>
@@ -56,6 +59,7 @@ export default function TelaRegistrar() {
                         required
                     ></input>
                     <button type="submit">Salvar {tipo}</button>
+                    <button onClick={cancelar}>Cancelar</button>
                 </form>
             </Login>
         </>
@@ -91,7 +95,7 @@ input{
     border-radius: 5px;
 }
 button{
-    margin-bottom: 36px;
+    margin-bottom: 13px;
     display: flex;
     justify-content: center;
     align-items: center;
