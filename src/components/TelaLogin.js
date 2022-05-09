@@ -24,7 +24,6 @@ export default function TelaLogin() {
         const promessa = axios.post("http://localhost:5000/sign-in", { email, password })
         promessa.then(resposta => {
             setCarregando(false)
-            console.log(resposta)
             setUserData({ name: resposta.data.name, token: resposta.data.token })
             navigate("/registros")
 
