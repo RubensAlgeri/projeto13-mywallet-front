@@ -14,13 +14,12 @@ import TelaEditar from "./TelaEditar"
 
 export default function App(){
 	const [userData, setUserData] = React.useState([])
-	const [porcentagem, setPorcentagem] = React.useState(0);
     return(
         <>
 		<Reset />
         <Style />
 			<BrowserRouter>
-				<UserContext.Provider value={{ userData, setUserData, porcentagem, setPorcentagem}}>
+				<UserContext.Provider value={{ userData, setUserData}}>
 					<Routes>
 						<Route path="/" element={<TelaLogin />} />
 						<Route path="/cadastro" element={<TelaCadastro />} />

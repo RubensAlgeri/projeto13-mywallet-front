@@ -9,9 +9,12 @@ export default function TelaRegistros() {
     const navigate = useNavigate();
     const [listaRegistros, setListaRegistros] = useState([])
     const [saldo, setSaldo] = useState([])
-    const userData = useContext(UserContext).userData
+    const {userData, setUserData} = useContext(UserContext)
     const { name, token } = userData;
-    console.log(saldo, listaRegistros)
+    console.log(token)
+    if(token == undefined ){
+        navigate("/")
+    }
 
     useEffect(() => {
         const config = {
@@ -45,12 +48,17 @@ export default function TelaRegistros() {
         }
     }
 
+    function deslogar(){
+        setUserData([])
+        navigate("/")
+    }
+
 
     return (
         <>
             <Topo>
                 <p>Olá, {name}</p>
-                <ion-icon name="log-out-outline"></ion-icon>
+                <ion-icon onClick={deslogar} name="log-out-outline"></ion-icon>
             </Topo>
             <Registros tipo={saldo?saldo.type:null}>
 
