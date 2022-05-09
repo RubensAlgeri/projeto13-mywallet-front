@@ -22,7 +22,7 @@ export default function TelaEditar() {
             }
         }
 
-        const promessa = axios.put(`http://localhost:5000/records/${id}`,{value:valor, description:descricao}, config)
+        const promessa = axios.put(`https://projeto-13-mywallet.herokuapp.com/${id}`,{value:valor, description:descricao}, config)
         promessa.then(() => {
             navigate("/registros")
         })

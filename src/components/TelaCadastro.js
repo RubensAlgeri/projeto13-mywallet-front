@@ -18,7 +18,7 @@ export default function TelaCadastro() {
     function cadastrar(event) {
         event.preventDefault();
         const promessa = axios.post(
-            "http://localhost:5000/sign-up",
+            "https://projeto-13-mywallet.herokuapp.com/sign-up",
             { email, password, username: name }
         );
         promessa.then(() => {

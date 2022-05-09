@@ -22,7 +22,7 @@ export default function TelaRegistrar() {
             }
         }
         const promessa = axios.post(
-            "http://localhost:5000/records",
+            "https://projeto-13-mywallet.herokuapp.com/records",
             { value: valor, description: descricao, type: tipo, date: dayjs().locale("pt-br").format('DD/MM') }, config
         );
         promessa.then(() => {

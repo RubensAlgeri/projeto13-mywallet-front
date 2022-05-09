@@ -19,7 +19,7 @@ export default function TelaRegistros() {
                 Authorization: `Bearer ${token}`
             }
         }
-        const promise = axios.get(`http://localhost:5000/records`, config)
+        const promise = axios.get(`https://projeto-13-mywallet.herokuapp.com/records`, config)
         promise.then((resposta) => {
             setListaRegistros(resposta.data.records);
             setSaldo(resposta.data.balance);
@@ -34,9 +34,9 @@ export default function TelaRegistros() {
             }
         }
         if (window.confirm("Você quer mesmo deletar este registro?") === true) {
-            const promessa = axios.delete(`http://localhost:5000/records/${idRegistro}`, config)
+            const promessa = axios.delete(`https://projeto-13-mywallet.herokuapp.com/records/${idRegistro}`, config)
             promessa.then(() => {
-                const promise = axios.get(`http://localhost:5000/records`, config)
+                const promise = axios.get(`https://projeto-13-mywallet.herokuapp.com/records`, config)
                 promise.then((resposta) => {
                     setListaRegistros(resposta.data.records);
                     setSaldo(resposta.data.balance);
