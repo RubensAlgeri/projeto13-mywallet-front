@@ -24,7 +24,7 @@ export default function TelaRegistros() {
             setListaRegistros(resposta.data.records);
             setSaldo(resposta.data.balance);
         })
-        promise.catch((err) => { alert(`deu ruim, ${err}`) })
+        promise.catch((err) => { alert(`deu ruim, ${err.message}`) })
     }, []);
 
     function removerRegistro(idRegistro) {
@@ -41,7 +41,7 @@ export default function TelaRegistros() {
                     setListaRegistros(resposta.data.records);
                     setSaldo(resposta.data.balance);
                 })
-                promise.catch((err) => { alert(`deu ruim, ${err}`) })
+                promise.catch((err) => { alert(`deu ruim, ${err.message}`) })
             })
         }
     }

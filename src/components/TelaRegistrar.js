@@ -13,7 +13,7 @@ export default function TelaRegistrar() {
     const { token } = userData;
     const [entrada, setEntrada] = useState({ valor: "", descricao: "" })
     const { valor, descricao } = entrada
-    
+
     function enviar(event) {
         event.preventDefault();
         const config = {
@@ -29,7 +29,7 @@ export default function TelaRegistrar() {
             navigate("/registros");
         });
         promessa.catch((err) => {
-            alert(`deu ruim, ${err}`);
+            alert(`deu ruim, ${err.message}`);
         });
     }
     function cancelar() {

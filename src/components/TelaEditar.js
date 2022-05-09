@@ -22,11 +22,11 @@ export default function TelaEditar() {
             }
         }
 
-        const promessa = axios.put(`https://projeto-13-mywallet.herokuapp.com/${id}`,{value:valor, description:descricao}, config)
+        const promessa = axios.put(`https://projeto-13-mywallet.herokuapp.com/records/${id}`, { value: valor, description: descricao }, config)
         promessa.then(() => {
             navigate("/registros")
         })
-        promessa.catch((err) => { alert(`deu ruim, ${err}`) })
+        promessa.catch((err) => { alert(`deu ruim, ${err.message}`) })
     }
     function cancelar() {
         navigate("/registros")

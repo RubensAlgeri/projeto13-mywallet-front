@@ -25,7 +25,7 @@ export default function TelaCadastro() {
             navigate("/");
         });
         promessa.catch((err) => {
-            alert(`deu ruim, ${err}`);
+            alert(`deu ruim, ${err.message}`);
         });
     }
 
